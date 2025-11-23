@@ -98,8 +98,8 @@ word_frequencies = {word: tokens.count(word) for word in tokens if tokens.count(
 # Your code here:
 # -----------------------------------------------
 def token_counts(string: str, k: int = 1) -> dict:
-    tokens = tokenize(string, unique=True)
-    word_frequencies = {word: tokens.count(word) for word in tokens if tokens.count(word) > k}
+    tokens = tokenize(string, unique=False)
+    word_frequencies = {word: tokens.count(word) for word in tokens if tokens.count(word) >= k}
     return word_frequencies
 
 # test:
@@ -191,7 +191,7 @@ all(i2t[t2i[tok]] == tok for tok in t2i) # should be True
 # -----------------------------------------------
 def tokenize_and_encode(documents: list) -> list:
     # Hint: use your make_vocabulary_map and tokenize function
-    tokenized_docs = [tokenize(doc, unique=True) for doc in documents]
+    tokenized_docs = [tokenize(doc, unique=False) for doc in documents]
     token_to_id, id_to_token = make_vocabulary_map(documents)
 
     encoded_list = [[token_to_id[token] for token in sub_list] for sub_list in tokenized_docs]
@@ -203,8 +203,7 @@ enc, t2i, i2t = tokenize_and_encode([text, 'What a luck we had today!'])
 " | ".join([" ".join(i2t[i] for i in e) for e in enc]) == 'the quick brown fox jumps over the lazy dog | what a luck we had today'
 # -----------------------------------------------
 
-# Note that the test returns False here because the expected output was not alphabetically sorted.
-# However, the grader expects the output to be sorted, so I left the function definition as is.
+# Note that the grader expects the output to be unsorted.
 
 
 # In the following set of exercises you're going to implement an RNN from scratch. You'll also
